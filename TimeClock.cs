@@ -18,6 +18,16 @@ namespace pointeuse
             
         }
 
+        public async Task<WorkingState> WorkingState(ILocalStorageService localStorageService)
+        {
+            await InitIfNeeded(localStorageService);
+            if (Events.Any())
+            {
+                return Events.Last().Type == EventType.Start ? pointeuse.WorkingState.Working : pointeuse.WorkingState.Idle;
+            }
+            return pointeuse.WorkingState.Idle;
+        }
+        
         private async Task Load()
         {
             var times = await LocalStorage.GetItemAsync<List<Event>>("times");
@@ -55,7 +65,7 @@ namespace pointeuse
         public async Task Stop(ILocalStorageService localStorageService)
         {
             await InitIfNeeded(localStorageService);
-            var evt = new Event(EventType.Start);
+            var evt = new Event(EventType.Stop);
             Events.Add(evt);
             await Save();
         }

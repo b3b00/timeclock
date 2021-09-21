@@ -1,0 +1,52 @@
+@page "/time"
+@inject ITimeClock _timer
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="Start" style="@displayStart">Start</button>
+<button class="btn btn-primary" @onclick="Stop" style="@displayStop">Stop</button>
+
+@code {
+    private int currentCount = 0;
+
+    private string displayStart = "display:block";
+    private string displayStop = "display:none";
+    
+    private bool isStartVisible = true;
+    
+    private bool isStopVisible = false;
+
+    private async Task Start()
+    {
+        await _timer.Start(_localStorage);
+        await SetVisibility();
+    }
+    
+    private async Task Stop()
+    {
+await _timer.Stop(_localStorage);
+        await SetVisibility();
+    }
+
+    protected async Task SetVisibility()
+    {
+        var state = await _timer.WorkingState(_localStorage);
+        isStartVisible = state == WorkingState.Idle;
+        isStopVisible = state == WorkingState.Working;
+        displayStart = "display:" + (isStartVisible ? "block" : "none");
+        displayStop = "display:" + (isStopVisible ? "block" : "none");
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await SetVisibility();
+        if (firstRender)
+        {
+            
+            StateHasChanged();
+        }
+    }
+}
