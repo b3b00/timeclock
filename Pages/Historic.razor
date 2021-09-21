@@ -1,0 +1,41 @@
+﻿@page "/historic"
+@inject ITimeClock _timer
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+<h1>Historique</h1>
+
+
+@if (times == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Durée</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var time  in times)
+            {
+                <tr>
+                    <td>@time.Day</td>
+                    <td>@time.Duration.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<DayTime> times;
+
+    protected override async Task OnInitializedAsync()
+    {
+        times = await _timer.GetHistoric(_localStorage);
+    }
+
+    
+}

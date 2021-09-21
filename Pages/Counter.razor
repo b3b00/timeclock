@@ -1,0 +1,34 @@
+@page "/time"
+@inject ITimeClock _timer
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="Start">Start</button>
+<button class="btn btn-primary" @onclick="Stop">Stop</button>
+
+@code {
+    private int currentCount = 0;
+
+    private async Task Start()
+    {
+        await _timer.Start(_localStorage);
+    }
+    
+    private async Task Stop()
+    {
+await _timer.Stop(_localStorage);
+    }
+
+    
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            
+            StateHasChanged();
+        }
+    }
+}
