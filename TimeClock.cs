@@ -21,6 +21,8 @@ namespace pointeuse
         private async Task Load()
         {
             var times = await LocalStorage.GetItemAsync<List<Event>>("times");
+            var tstr = await LocalStorage.GetItemAsStringAsync("times");
+            
             Events = times;
         }
 
