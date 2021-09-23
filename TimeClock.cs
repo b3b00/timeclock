@@ -70,7 +70,7 @@ namespace pointeuse
             await Save();
         }
 
-        public async Task<List<DayTime>> GetHistoric(ILocalStorageService localStorageService)
+        public async Task<IEnumerable<IGrouping<string,DayTime>>> GetHistoric(ILocalStorageService localStorageService)
         {
             var days = new List<DayTime>();
             await InitIfNeeded(localStorageService);
@@ -94,7 +94,7 @@ namespace pointeuse
                 }
             }
             
-            return days;
+            return days.GroupBy(x => x.Day);
         }
     }
 }

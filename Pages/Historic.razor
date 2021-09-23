@@ -20,21 +20,25 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var time  in times)
+            @foreach (var times  in times)
             {
-                <tr>
-                    <td>@time.Day</td>
-                    <td>@time.StartTime</td>
-                    <td>@time.StopTime</td>
-                    <td>@time.Duration.ToString("hh\\:mm")</td>
-                </tr>
+                <tr><td colspan="4" style="border-top:solid 2px black">@times.Key</td></tr>
+                                                 @foreach (var time in times)
+                                                 {
+                                                     <tr>
+                                                         <td>&nbsp;</td>
+                                                         <td>@time.StartTime</td>
+                                                         <td>@time.StopTime</td>
+                                                         <td>@time.Duration.ToString("hh\\:mm")</td>
+                                                     </tr>
+                                                 }
             }
         </tbody>
     </table>
 }
 
 @code {
-    private List<DayTime> times;
+    private IEnumerable<IGrouping<string, DayTime>> times;
 
     protected override async Task OnInitializedAsync()
     {

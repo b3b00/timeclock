@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 
@@ -10,7 +11,7 @@ namespace pointeuse
 
         Task Stop(ILocalStorageService localStorageService);
 
-        Task<List<DayTime>> GetHistoric(ILocalStorageService localStorageService);
+        Task<IEnumerable<IGrouping<string,DayTime>>> GetHistoric(ILocalStorageService localStorageService);
 
         Task<WorkingState> WorkingState(ILocalStorageService localStorageService);
     }
