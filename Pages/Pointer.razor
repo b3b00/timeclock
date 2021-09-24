@@ -5,14 +5,16 @@
 
 <p>Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="Start" style="@displayStart">Start</button>
-<button class="btn btn-primary" @onclick="Stop" style="@displayStop">Stop</button>
+<div style="@displayStart"><button class="btn btn-primary" @onclick="Start" >Start</button></div>
+<div style="@displayStop"><button class="btn btn-primary" @onclick="Stop" >Stop</button><span>Démarré à @startedAt</span></div>
 
 @code {
     private int currentCount = 0;
 
     private string displayStart = "display:block";
     private string displayStop = "display:none";
+
+    private string startedAt = "";
     
     private bool isStartVisible = true;
     
@@ -21,6 +23,7 @@
     private async Task Start()
     {
         await _timer.Start(_localStorage);
+        
         await SetVisibility();
     }
     
@@ -37,6 +40,14 @@ await _timer.Stop(_localStorage);
         isStopVisible = state == WorkingState.Working;
         displayStart = "display:" + (isStartVisible ? "block" : "none");
         displayStop = "display:" + (isStopVisible ? "block" : "none");
+        if (isStopVisible)
+        {
+            var last = await _timer.GetLastEvent(_localStorage);
+            if (last != null)
+            {
+                startedAt = last.Date.ToString("HH:mm");
+            }
+        }
     }
 
 

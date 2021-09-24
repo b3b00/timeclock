@@ -12,9 +12,9 @@ namespace pointeuse
 
         public string Day => Start.ToString("dddd d/M/yyyy");
 
-        public string StartTime => Start.ToString("hh:mm");
+        public string StartTime => Start.ToString("HH:mm");
         
-        public string StopTime => Stop.ToString("hh:mm");
+        public string StopTime => Stop.ToString("HH:mm");
 
     }
 }

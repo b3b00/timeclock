@@ -14,5 +14,7 @@ namespace pointeuse
         Task<IEnumerable<IGrouping<string,DayTime>>> GetHistoric(ILocalStorageService localStorageService);
 
         Task<WorkingState> WorkingState(ILocalStorageService localStorageService);
+
+        Task<Event> GetLastEvent(ILocalStorageService localStorageService);
     }
 }

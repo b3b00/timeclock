@@ -96,5 +96,11 @@ namespace pointeuse
             
             return days.GroupBy(x => x.Day);
         }
+
+        public async Task<Event> GetLastEvent(ILocalStorageService localStorageService)
+        {
+            await InitIfNeeded(localStorageService);
+            return Events != null && Events.Any() ? Events.Last() : null;
+        }
     }
 }
